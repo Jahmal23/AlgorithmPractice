@@ -21,5 +21,21 @@ namespace ExerciseTests
             Assert.AreEqual(StringFun.GetOccurrencesEachChar(""), "", "Empty String Test Failed");
             Assert.AreEqual(StringFun.GetOccurrencesEachChar(null), "", "Null String Test Failed");
         }
+
+        [TestMethod]
+        public void ShouldRemoveOccurrences()
+        {
+            Assert.AreEqual(StringFun.RemoveOccurrences("Jahmal",'a'), "Jhml", "Test for Jahmal Failed");
+            Assert.AreEqual(StringFun.RemoveOccurrences("Natasha",'N'), "atasha","Test for Natasha Failed");
+        }
+
+        [TestMethod]
+        public void ShouldRemoveOccurrencesOnBadInput()
+        {
+            Assert.AreEqual(StringFun.RemoveOccurrences("", 'a'), "", "Empty String Test Failed");
+            Assert.AreEqual(StringFun.RemoveOccurrences("Joe", 'z'), "Joe", "Missing char Test Failed");
+            Assert.AreEqual(StringFun.RemoveOccurrences(null, 'z'), "", "Null String Test Failed");
+        }
+
     }
 }

@@ -10,6 +10,10 @@ namespace Exercises
     {
         public static int PerformPolish(string s)
         {
+            if (string.IsNullOrWhiteSpace(s))
+            {
+                return -1;
+            }
 
             var ops = new List<char>();
             var nums = new List<char>();
@@ -25,6 +29,12 @@ namespace Exercises
                 {
                     nums.Add(c);
                 }
+            }
+
+
+            if (!IsBalanced(ops, nums))
+            {
+                return -1;
             }
 
 
@@ -53,6 +63,10 @@ namespace Exercises
             return sum;
         }
 
+        private static bool IsBalanced(List<char> ops, List<char> nums)
+        {
+            return nums.Count == (ops.Count + 1);
+        }
 
         private static bool IsOperator(char c)
         {

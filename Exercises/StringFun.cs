@@ -46,13 +46,17 @@ namespace Exercises
         public static string RemoveOccurrences(string s, char val)
         {
             StringBuilder removed = new StringBuilder();
-            foreach (char c in s)
+
+            if (!string.IsNullOrWhiteSpace(s))
             {
-                if (c != val)
-                    removed.Append(c);
+                foreach (char c in s)
+                {
+                    if (c != val)
+                        removed.Append(c);
 
+                }
             }
-
+           
             return removed.ToString();
         }
     }
