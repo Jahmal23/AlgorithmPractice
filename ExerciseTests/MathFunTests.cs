@@ -33,6 +33,12 @@ namespace ExerciseTests
         {
             int result = MathFun.PerformPolish("+-45");
             Assert.AreEqual(result, -1, "Unbalanced Calc Failed");
+
+            int result2 = MathFun.PerformPolish("+--1");
+            Assert.AreEqual(result2, -1, "Unbalanced Calc 2 Failed");
+
+            int result3 = MathFun.PerformPolish("+-1111111111111");
+            Assert.AreEqual(result3, -1, "Unbalanced Calc 3 Failed");
         }
 
         [TestMethod]
@@ -42,6 +48,15 @@ namespace ExerciseTests
             Assert.AreEqual(result, -1, "Null Calc Failed");
         }
 
+        [TestMethod]
+        public void ShouldNotPerformEmptyCalculation()
+        {
+            int result = MathFun.PerformPolish(string.Empty);
+            Assert.AreEqual(result, -1, "Empty Calc Failed");
+
+            int result2 = MathFun.PerformPolish("      ");
+            Assert.AreEqual(result, -1, "Empty Calc 2 Failed");
+        }
 
 
 
