@@ -9,19 +9,53 @@ namespace Exercises
     public class Tree
     {
         public Node Root { get; set; }
+        public int NodeCount { get; set; }
 
         public Tree()
         {
             Root = new Node();
         }
-        public void PrintNodes()
+
+        public int LeftNodeCount
         {
-            Root.PrintVals("");
+            get
+            {
+                int sum = 0;
+
+                if (Root != null && Root.Left != null)
+                {
+                    sum = Node.GetSideCount(Root.Left, sum);
+                }
+
+                return sum;
+            }
+        }
+
+        public int RightNodeCount
+        {
+            get
+            {
+                int sum = 0;
+
+                if (Root != null && Root.Right != null)
+                {
+                    sum = Node.GetSideCount(Root.Right, sum);
+                }
+
+                return sum;
+            }
         }
 
         public void AddLetter(string v)
         {
-            Root.AddLetter(v);
+            Node.AddLetter(Root, v);
+            NodeCount++;
+        }
+
+        public void ClearNodes()
+        {
+            Root = new Node();
+            NodeCount = 0;
         }
 
     }
@@ -30,82 +64,93 @@ namespace Exercises
     public class Node
     {
         public string Val { get; set; }
+       
 
         public Node Left { get; set; }
         public Node Right { get; set; }
 
-        public void PrintVals(string leftOrRight)
+       
+        public static int GetSideCount(Node currentNode, int currentCount)
         {
-            if (leftOrRight != "")
+            if (currentNode == null)
             {
-                Val = leftOrRight + ":" + Val;
+                return currentCount;
             }
 
-            Console.WriteLine(Val + leftOrRight);
+            currentCount++;
 
-            if (Left == null && Right == null)
+            if (currentNode.Left != null)
             {
-                return;
+               currentCount = GetSideCount(currentNode.Left, currentCount);
             }
 
-            if (Left != null)
+            if (currentNode.Right != null)
             {
-                Left.PrintVals("Left");
+                currentCount = GetSideCount(currentNode.Right, currentCount);
             }
 
-            if (Right != null)
-            {
-                Right.PrintVals("Right");
-            }
-
+            return currentCount;
         }
 
-        public void AddLetter(string val)
+
+        public static void AddLetter(Node currentNode, string val)
         {
-            if (string.IsNullOrEmpty(Val)) //found a spot
+            if (string.IsNullOrEmpty(currentNode.Val)) //found a spot
             {
-                Val = val;
+                currentNode.Val = val;
                 return;
             }
 
-            if (Left == null && Right != null)
+            //if both the left and right side are empty,
+            //pick the left if the letter comes BEFORE, right otherwise
+            if (currentNode.Right == null && currentNode.Left == null)
             {
-                Left = new Node();
-                Left.AddLetter(val);
-                return;
-            }
-
-            if (Right == null && Left != null)
-            {
-                Right = new Node();
-                Right.AddLetter(val);
-                return;
-            }
-
-            //both null
-            if (Right == null && Left == null)
-            {
-                Left = new Node();
-                Left.AddLetter(val);
-                return;
-            }
-
-            if (Right != null && Left != null)
-            {
-                if (Left.Val.CompareTo(val) > 0)
+                if (currentNode.Val.CompareTo(val) >= 0)
                 {
-                    Right.AddLetter(val);
+                    currentNode.Left = new Node();
+
+                    AddLetter(currentNode.Left, val);
                     return;
                 }
                 else
                 {
-                    Left.AddLetter(val);
+                    currentNode.Right = new Node();
+                    AddLetter(currentNode.Right, val);
                     return;
                 }
             }
 
+            //if only the right side is avail, pick it
+            if (currentNode.Right == null && currentNode.Left != null)
+            {
+                currentNode.Right = new Node();
+                AddLetter(currentNode.Right, val);
+                return;
+            }
 
+            //if only the left side is avail, pick it
+            if (currentNode.Left == null && currentNode.Right != null)
+            {
+                currentNode.Left = new Node();
+                AddLetter(currentNode.Left, val);
+                return;
+            }
 
+          
+            //if both sides are taken, traverse left if the letter comes BEFORE, else go right.
+            if (currentNode.Right != null && currentNode.Left != null)
+            {
+                if (currentNode.Val.CompareTo(val) >= 0)
+                {
+                    AddLetter(currentNode.Left, val);
+                    return;
+                }
+                else
+                {
+                    AddLetter(currentNode.Right, val);
+                    return;
+                }
+            }
         }
 
     }
