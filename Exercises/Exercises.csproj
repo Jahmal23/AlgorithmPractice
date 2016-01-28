@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncFun.cs" />
     <Compile Include="MathFun.cs" />
     <Compile Include="StringFun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

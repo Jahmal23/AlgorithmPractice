@@ -53,6 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AsyncFunTests.cs" />
     <Compile Include="MathFunTests.cs" />
     <Compile Include="StringFunTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
